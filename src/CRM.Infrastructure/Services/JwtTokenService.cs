@@ -1,13 +1,14 @@
 using System.Security.Claims;
 using System.Text;
 using CRM.Application.Auth.Common.Interface;
+using CRM.Application.Common.Interface;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CRM.Infrastructure.Services;
 
-public sealed class JwtTokenService(IOptions<JwtOptions> jwtOptions) : IJWTTokenService
+public sealed class JwtTokenService(IOptions<JwtOptions> jwtOptions) : IJwtTokenService
 {
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
     private readonly JsonWebTokenHandler _handler = new();

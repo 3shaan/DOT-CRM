@@ -1,6 +1,6 @@
-namespace CRM.Application.Auth.Common.Interface;
+namespace CRM.Application.Common.Interface;
 
-public interface IJWTTokenService
+public interface IJwtTokenService
 {
 
     Task<(String Token, DateTime ExpiresAt)> GenerateAccesTokenAsync(
