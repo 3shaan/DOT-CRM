@@ -2,7 +2,7 @@ using CRM.Application.Auth.DTOs;
 
 namespace CRM.Application.Auth.Common.Interface;
 
-public class IAuthService
+public interface IAuthService
 {
     Task<AuthResponse> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default);
 

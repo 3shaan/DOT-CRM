@@ -1,6 +1,6 @@
 namespace CRM.Application.Auth.DTOs;
 
-public class UserResponse
+public sealed class UserResponse
 {
 
     public Guid Id { get; set; }

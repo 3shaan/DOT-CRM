@@ -1,6 +1,6 @@
 namespace CRM.Application.Auth.DTOs;
 
-public class RegisterRequest
+public sealed class RegisterRequest
 {
 
     public required string FirstName { get; set; }

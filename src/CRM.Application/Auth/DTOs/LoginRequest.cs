@@ -1,6 +1,6 @@
 namespace CRM.Application.Auth.DTOs;
 
-public class LoginRequest
+public sealed class LoginRequest
 {
 
     public required string Email { get; set; }

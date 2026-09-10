@@ -1,6 +1,6 @@
 namespace CRM.Application.Auth.DTOs;
 
-public class AuthResponse
+public sealed class AuthResponse
 {
 
     public UserResponse User { get; set; } = null!;
