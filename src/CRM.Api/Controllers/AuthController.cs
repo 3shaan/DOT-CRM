@@ -31,6 +31,31 @@ public class AuthController(IAuthService authService) : ControllerBase
         return Ok(result);
     }
 
+
+    // rotate refresh token
+    [AllowAnonymous]
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+    {
+
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+        var result = await authService.RefreshTokenAsync(request.RefreshToken, ipAddress, cancellationToken);
+
+        return Ok(result);
+    }
+
+    // logout the user
+    [AllowAnonymous]
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout(RefreshTokenRequest request, CancellationToken cancellationToken)
+    {
+        await authService.LogoutAsync(request.RefreshToken, cancellationToken);
+        return NoContent();
+    }
+
+
+
     // me route to get the current user
     [Authorize]
     [HttpGet("me")]
