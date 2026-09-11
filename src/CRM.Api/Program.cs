@@ -1,4 +1,5 @@
 using System.Text;
+using CRM.Api.Transformers;
 using CRM.Infrastructure;
 using CRM.Infrastructure.Identity;
 using CRM.Infrastructure.Services;
@@ -16,7 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+    options.AddOperationTransformer<AuthorizeOperationTransformer>();
+});
 
 // infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -74,7 +79,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(options =>
+    {
+        options
+            .AddPreferredSecuritySchemes("Bearer")
+            .AddHttpAuthentication("Bearer", _ => { });
+    });
 
 }
 
