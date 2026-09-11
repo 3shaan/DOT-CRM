@@ -1,10 +1,72 @@
+using System.Text;
+using CRM.Infrastructure;
+using CRM.Infrastructure.Identity;
+using CRM.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// =============
+//services
+// =============
+
+
+builder.Services.AddControllers();
+
 builder.Services.AddOpenApi();
 
+// infrastructure services
+builder.Services.AddInfrastructure(builder.Configuration);
+
+//jwt 
+var jwtSettings = builder.Configuration.GetSection(JwtOptions.SectionName);
+
+var jwtSecret = jwtSettings["Secret"];
+
+if (string.IsNullOrWhiteSpace(jwtSecret))
+{
+    throw new InvalidOperationException("JWT Secret is not set.");
+}
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+        ValidateIssuer = true,
+
+        ValidIssuers = [jwtSettings["Issuer"]],
+        ValidateAudience = true,
+        ValidAudiences = [jwtSettings["Audience"]],
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(30),
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// corse for web app
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("WebApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+        .AllowCredentials()
+    .AllowAnyHeader()
+    .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
+
+
+// ============
+//middleware
+// ============
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -12,30 +74,26 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+
 app.UseHttpsRedirection();
+app.UseCors("WebApp");
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
+// --------------------------------------------------
+// Seed Identity
+// --------------------------------------------------
+
+using (var scope = app.Services.CreateScope())
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    await IdentitySeeder.SeedAsync(
+        scope.ServiceProvider);
+}
+
+
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+
