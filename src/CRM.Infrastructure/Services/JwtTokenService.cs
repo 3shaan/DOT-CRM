@@ -16,7 +16,7 @@ public sealed class JwtTokenService(IOptions<JwtOptions> jwtOptions) : IJwtToken
     public Task<(string Token, DateTime ExpiresAt)> GenerateAccesTokenAsync(
         Guid userId, string email, IList<string> roles)
     {
-        var expiresAt = DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiryInMinutes);
+        var expiresAt = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpirationMinutes);
 
         var claims = new List<Claim>
         {
