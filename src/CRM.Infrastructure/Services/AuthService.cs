@@ -2,13 +2,21 @@ using CRM.Application.Auth.Common.Interface;
 using CRM.Application.Auth.DTOs;
 using CRM.Application.Common.Interface;
 using CRM.Infrastructure.Identity;
+using CRM.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace CRM.Infrastructure.Services;
 
 public sealed class AuthService(
         UserManager<ApplicationUser> userManager,
-        IJwtTokenService jwtTokenService) : IAuthService
+        IJwtTokenService jwtTokenService,
+        RefreshTokenService refreshTokenService,
+        IOptions<JwtOptions> jwtOptions,
+        ApplicationDbContext dbContext
+
+        ) : IAuthService
 {
 
 
@@ -49,11 +57,11 @@ public sealed class AuthService(
 
         await userManager.UpdateAsync(user);
 
-        return await CreateAuthResponseAsync(user);
+        return await CreateAuthResponseAsync(user, null);
     }
 
 
-    private async Task<AuthResponse> CreateAuthResponseAsync(ApplicationUser user)
+    private async Task<AuthResponse> CreateAuthResponseAsync(ApplicationUser user, string? ipAddress = null)
     {
         var roles = await userManager.GetRolesAsync(user);
 
@@ -62,10 +70,28 @@ public sealed class AuthService(
             user.Email!,
             roles);
 
+
+        var rawRefreshToken = refreshTokenService.GenerateToken();
+
+        var hashedRefreshToken = refreshTokenService.HashToken(rawRefreshToken);
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            TokenHash = hashedRefreshToken,
+            ExpiresAt = DateTime.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpirationDays),
+            CreatedAt = DateTime.UtcNow,
+            CreatedByIp = ipAddress,
+        };
+
+        await dbContext.RefreshTokens.AddAsync(refreshToken);
+        await dbContext.SaveChangesAsync();
+
         return new AuthResponse
         {
             AccessToken = token,
-            RefreshToken = String.Empty, // TODO: Implement refresh token generation
+            RefreshToken = rawRefreshToken,
             AccessTokenExpiresAt = expiresAt,
             User = new UserResponse
             {
@@ -112,8 +138,76 @@ public sealed class AuthService(
         // new role for the user
         await userManager.AddToRoleAsync(newUser, "User");
 
-        return await CreateAuthResponseAsync(newUser);
+        return await CreateAuthResponseAsync(newUser, null);
 
 
+    }
+
+    public async Task<AuthResponse> RefreshTokenAsync(string refreshToken, string? ipAddress, CancellationToken cancellationToken = default)
+    {
+        var hashedRefreshToken = refreshTokenService.HashToken(refreshToken);
+
+        var existingRefreshToken = await dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.TokenHash == hashedRefreshToken, cancellationToken);
+
+        if (existingRefreshToken is null)
+            throw new UnauthorizedAccessException("Invalid refresh token");
+
+        if (!existingRefreshToken.IsActive)
+            throw new UnauthorizedAccessException("Refresh token is Expired or revoked");
+
+
+        var user = await userManager.FindByIdAsync(existingRefreshToken.UserId.ToString());
+
+        if (user is null)
+            throw new UnauthorizedAccessException("User not found");
+
+        // rotate refresh token
+        existingRefreshToken.RevokedAt = DateTime.UtcNow;
+
+        var newRawRefreshToken = refreshTokenService.GenerateToken();
+
+        var newHashedRefreshToken = refreshTokenService.HashToken(newRawRefreshToken);
+
+        var newRefreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            TokenHash = newHashedRefreshToken,
+            ExpiresAt = DateTime.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpirationDays),
+            CreatedAt = DateTime.UtcNow,
+            CreatedByIp = ipAddress,
+        };
+
+        dbContext.RefreshTokens.Add(newRefreshToken);
+
+        var roles = await userManager.GetRolesAsync(user);
+
+        var (accessToken, accessTokenExpiresAt) = await jwtTokenService.GenerateAccesTokenAsync(
+            user.Id,
+            user.Email!,
+            roles);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return new AuthResponse
+        {
+            AccessToken = accessToken,
+            RefreshToken = newRawRefreshToken,
+            AccessTokenExpiresAt = accessTokenExpiresAt,
+            User = new UserResponse
+            {
+                Id = user.Id,
+                Email = user.Email!,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+            }
+        };
+
+
+    }
+
+    public Task LogoutAsync(string refreshToken, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }
