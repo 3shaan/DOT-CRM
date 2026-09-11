@@ -206,8 +206,20 @@ public sealed class AuthService(
 
     }
 
-    public Task LogoutAsync(string refreshToken, CancellationToken cancellationToken = default)
+    public async Task LogoutAsync(string refreshToken, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var hashedRefreshToken = refreshTokenService.HashToken(refreshToken);
+
+        var existingRefreshToken = await dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.TokenHash == hashedRefreshToken, cancellationToken);
+
+        if (existingRefreshToken is null) return;
+
+        if (!existingRefreshToken.IsRevoked)
+        {
+            existingRefreshToken.RevokedAt = DateTime.UtcNow;
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+
     }
 }
