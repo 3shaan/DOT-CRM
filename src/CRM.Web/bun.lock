@@ -11,6 +11,10 @@
         "@angular/forms": "^22.1.0",
         "@angular/platform-browser": "^22.1.0",
         "@angular/router": "^22.1.0",
+        "@openng/icons": "^1.0.0",
+        "@openng/optimus-ui": "^2.0.2",
+        "@openng/optimus-ui-tailwindcss": "^2.0.2",
+        "@openng/optimus-ui-themes": "^2.0.2",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
       },
@@ -42,6 +46,8 @@
     "@angular-devkit/schematics": ["@angular-devkit/schematics@22.1.8", "", { "dependencies": { "@angular-devkit/core": "22.1.8", "jsonc-parser": "3.3.1", "magic-string": "1.0.0", "ora": "9.4.1", "rxjs": "7.8.2" } }, "sha512-Pv3cPa/44kvEwYcqwx4Ns5dhIDmcFNSHhbpheqiEG1Z/u4e2t4zHKDtE3eHZB+8o+IcC7xJj+d+AqGR44RoZDA=="],
 
     "@angular/build": ["@angular/build@22.1.8", "", { "dependencies": { "@ampproject/remapping": "2.3.0", "@angular-devkit/architect": "0.2201.8", "@babel/core": "8.0.1", "@babel/helper-annotate-as-pure": "8.0.0", "@babel/helper-split-export-declaration": "7.24.7", "@inquirer/confirm": "6.1.1", "@vitejs/plugin-basic-ssl": "2.3.0", "beasties": "0.4.3", "browserslist": "^4.26.0", "esbuild": "0.28.2", "https-proxy-agent": "9.1.0", "jsonc-parser": "3.3.1", "listr2": "11.0.0", "magic-string": "1.0.0", "mrmime": "2.0.1", "oxc-parser": "0.142.0", "parse5-html-rewriting-stream": "8.0.1", "picomatch": "4.0.5", "piscina": "5.2.0", "rolldown": "1.2.0", "sass": "1.101.0", "semver": "7.8.5", "source-map-support": "0.5.21", "tinyglobby": "0.2.17", "vite": "8.1.5", "watchpack": "2.5.2" }, "optionalDependencies": { "lmdb": "3.5.6" }, "peerDependencies": { "@angular/compiler": "^22.0.0", "@angular/compiler-cli": "^22.0.0", "@angular/core": "^22.0.0", "@angular/localize": "^22.0.0", "@angular/platform-browser": "^22.0.0", "@angular/platform-server": "^22.0.0", "@angular/service-worker": "^22.0.0", "@angular/ssr": "^22.1.8", "istanbul-lib-instrument": "^6.0.0", "karma": "^6.4.0", "less": "^4.2.0", "ng-packagr": "^22.0.0", "postcss": "^8.4.0", "rollup": "^4.0.0", "tailwindcss": "^2.0.0 || ^3.0.0 || ^4.0.0", "tslib": "^2.3.0", "typescript": ">=6.0 <6.1", "vitest": "^4.0.8" }, "optionalPeers": ["@angular/core", "@angular/localize", "@angular/platform-browser", "@angular/platform-server", "@angular/service-worker", "@angular/ssr", "istanbul-lib-instrument", "karma", "less", "ng-packagr", "postcss", "rollup", "tailwindcss", "vitest"] }, "sha512-tw+Evk0EITb8p8dTu743ONoFztCEiyDkdRbtZsh7C0vBS7Q9ElsOcFeg2Z9OAAwrmtZMIBuW3jrdPRQp7OCSdw=="],
+
+    "@angular/cdk": ["@angular/cdk@22.1.6", "", { "dependencies": { "parse5": "^8.0.0", "tslib": "^2.3.0" }, "peerDependencies": { "@angular/common": "^22.0.0 || ^23.0.0", "@angular/core": "^22.0.0 || ^23.0.0", "@angular/forms": "^22.0.0 || ^23.0.0", "@angular/platform-browser": "^22.0.0 || ^23.0.0", "rxjs": "^6.5.3 || ^7.4.0" } }, "sha512-4eHSs/sIIp1mesNKFDkDTYDhfB/3/Bpfjzv/PbybsKVd642FTa3IAbjWf3uqHS/V7mpucF3Q5gSpirZHDgxwrg=="],
 
     "@angular/cli": ["@angular/cli@22.1.8", "", { "dependencies": { "@angular-devkit/architect": "0.2201.8", "@angular-devkit/core": "22.1.8", "@angular-devkit/schematics": "22.1.8", "@inquirer/prompts": "8.5.2", "@listr2/prompt-adapter-inquirer": "4.2.5", "@modelcontextprotocol/sdk": "1.30.0", "@schematics/angular": "22.1.8", "jsonc-parser": "3.3.1", "listr2": "11.0.0", "npm-package-arg": "14.0.0", "parse5-html-rewriting-stream": "8.0.1", "semver": "7.8.5", "yargs": "18.1.0", "zod": "4.4.3" }, "bin": { "ng": "bin/ng.js" } }, "sha512-MFN/FydqDndai8vF12hDxG5RlBt1HUUheeJgJNmuHYIne4bOAfOT+xuMpIK8+gLSRwCemdqR3OMM38pnsFJ/nA=="],
 
@@ -286,6 +292,22 @@
     "@napi-rs/nice-win32-x64-msvc": ["@napi-rs/nice-win32-x64-msvc@1.1.1", "", { "os": "win32", "cpu": "x64" }, "sha512-vB+4G/jBQCAh0jelMTY3+kgFy00Hlx2f2/1zjMoH821IbplbWZOkLiTYXQkygNTzQJTq5cvwBDgn2ppHD+bglQ=="],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.2.4", "", { "dependencies": { "@tybys/wasm-util": "^0.10.3" }, "peerDependencies": { "@emnapi/core": "^1.7.1 || ^2.0.0-alpha.4", "@emnapi/runtime": "^1.7.1 || ^2.0.0-alpha.4" } }, "sha512-AJxoUD2/15ESHbvpcyjU274nsAPLuOtPHCk0vKJM5pj//Fg/B1FXNWjPnXTT9PymCYYiHo4zPj0ZomXBKhoy7g=="],
+
+    "@openng/icons": ["@openng/icons@1.0.0", "", {}, "sha512-BdTSHu74S3WRfbmfoT2WfmvaM3Ei32K3WiZBJTw7nVTlCvQbpCNsBqzrD5rAe4nb5IoTPjeuRb5WTG2gzrTQtw=="],
+
+    "@openng/optimus-ui": ["@openng/optimus-ui@2.0.2", "", { "dependencies": { "@openng/optimus-ui-motion": "2.0.2", "@openng/optimus-ui-styled": "2.0.2", "@openng/optimus-ui-styles": "2.0.2", "@openng/optimus-ui-utils": "2.0.2", "tslib": "^2.3.0" }, "peerDependencies": { "@angular/cdk": "^22.1.4", "@angular/common": "^22.1.4", "@angular/core": "^22.1.4", "@angular/forms": "^22.1.4", "@angular/platform-browser": "^22.1.4", "@angular/router": "^22.1.4", "rxjs": "^6.0.0 || ^7.8.1" } }, "sha512-1tzUZjFaUYoC1uAk5oOGqdwCmyCroiWaCtIDuCG3XNy8sALXQjnyMwoGHHt1nUg64nkxoj4gYlwQbsX4GcQmKA=="],
+
+    "@openng/optimus-ui-motion": ["@openng/optimus-ui-motion@2.0.2", "", { "dependencies": { "@openng/optimus-ui-utils": "2.0.2" } }, "sha512-sh3I8xYK1A+BZEqpPgPl6MaRVPJrHNbiC6hzkUXsaNhk4Uu6dEj7KEsGh89vYtFmYN6PUeR9+XnYau/k5/q45g=="],
+
+    "@openng/optimus-ui-styled": ["@openng/optimus-ui-styled@2.0.2", "", { "dependencies": { "@openng/optimus-ui-utils": "2.0.2" } }, "sha512-bCojQR6xzEoLUm2C+WfeG+MPu6XjLkLPmjU5s5DTuXcCA5W97SA0L0XdYtr/XF8G35JNBaEyyis8Fv/PdXELyA=="],
+
+    "@openng/optimus-ui-styles": ["@openng/optimus-ui-styles@2.0.2", "", { "dependencies": { "@openng/optimus-ui-styled": "2.0.2" } }, "sha512-2tOozv8KcBRynUeZ1LvEiqO3YrK4mARszXXJh6LhUujSVq7QGVtNiNu2dktW4t4EpNTXWQNILpqLL+CyA/QLVg=="],
+
+    "@openng/optimus-ui-tailwindcss": ["@openng/optimus-ui-tailwindcss@2.0.2", "", { "peerDependencies": { "tailwindcss": ">=3.1.0" } }, "sha512-JxUZ5unbEhj0meCza+jNdK/2AcI2j8iApwJsEeR1IRvmjKvphfhiD6TPj0y2EKJ7XOBXJP4T7hEcOpvxqLVTOg=="],
+
+    "@openng/optimus-ui-themes": ["@openng/optimus-ui-themes@2.0.2", "", { "dependencies": { "@openng/optimus-ui-styled": "2.0.2" } }, "sha512-nEQb83g8pssx5dJM+31sUEKwPjDX9OGZMyRoln2cvPQl7eHbFkafjgDNBL5oMHdnFVRQofmoJXgdC7sWn6XxbA=="],
+
+    "@openng/optimus-ui-utils": ["@openng/optimus-ui-utils@2.0.2", "", {}, "sha512-RgkiY91+X8h0rHI8UIKT1Pdvr352J/fSvFJ2wETYUGphCBw7j1lubhySn8yFfT6Ng+CVEZnviekvZSaBcUk2JA=="],
 
     "@oxc-parser/binding-android-arm-eabi": ["@oxc-parser/binding-android-arm-eabi@0.142.0", "", { "os": "android", "cpu": "arm" }, "sha512-ZiRGDutGsv1G6bL/ozy/koC0Sv39T1DqyoC4KD1DOy9ZoACm1O5UWhEK2c02Qdk+4lfLVkvFa/mQ0fm/4h1BtQ=="],
 
