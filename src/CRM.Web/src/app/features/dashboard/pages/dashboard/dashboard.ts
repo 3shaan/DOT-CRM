@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { ButtonModule } from '@openng/optimus-ui/button';
 
 @Component({
-  imports: [],
+  imports: [ButtonModule],
   selector: 'app-dashboard',
-  styleUrl: './dashboard.css',
   templateUrl: './dashboard.html',
 })
-export class Dashboard {}
+export class Dashboard { }
