@@ -1,0 +1,190 @@
+
+<div class="min-h-screen   relative overflow-hidden">
+
+    <div class="relative z-10 min-h-screen grid lg:grid-cols-2">
+
+       <auth-left-section></auth-left-section>
+
+        <!-- RIGHT: Login -->
+        <section class="flex items-center justify-center px-5 py-10 sm:px-8 lg:px-12 xl:px-20">
+
+            <div class="w-full max-w-md">
+
+                <!-- Mobile logo -->
+                <div class="flex lg:hidden items-center justify-center gap-3 mb-12">
+                    <div class="w-11 h-11 rounded-xl flex items-center justify-center ">
+                        <i class="pi pi-sparkles text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">
+                        CRM System
+                    </span>
+                </div>
+
+                <!-- Header -->
+                <div class="mb-9">
+
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/400 text-primary text-xs font-medium mb-5">
+                        <i class="pi pi-sparkles text-xs"></i>
+                        Welcome back
+                    </div>
+
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight  leading-tight">
+                        Sign in to your account
+                    </h2>
+
+                    <p class=" text-sm mt-4 leading-relaxed">
+                        Enter your details to continue to your workspace.
+                    </p>
+
+                </div>
+
+                <!-- Form -->
+                <form
+                    class="flex flex-col gap-6"
+                    (ngSubmit)="onSignIn()"
+                    #loginForm="ngForm"
+                >
+
+                    <!-- Email -->
+                    <div class="flex flex-col gap-2">
+
+                        <label
+                            for="email1"
+                            class="text-sm font-medium "
+                        >
+                            Email address
+                        </label>
+
+                        <div class="relative">
+
+                            <i class="pi pi-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 z-10 pointer-events-none"></i>
+
+                            <input
+                                pInputText
+                                id="email1"
+                                name="email"
+                                type="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                [(ngModel)]="email"
+                                required
+                                email
+                                #emailInput="ngModel"
+                                [invalid]="emailInput.invalid && emailInput.touched"
+                                class="w-full h-13! pl-11! pr-4! rounded-xl!"
+                            />
+
+                        </div>
+
+                        @if (emailInput.invalid && emailInput.touched) {
+                            <small class="text-red-400 text-xs">
+                                @if (emailInput.errors?.['required']) {
+                                    Email address is required.
+                                } @else {
+                                    Please enter a valid email address.
+                                }
+                            </small>
+                        }
+
+                    </div>
+
+                    <!-- Password -->
+                    <div class="flex flex-col gap-2">
+
+                        <div class="flex items-center justify-between gap-3">
+                            <label
+                                for="password1"
+                                class="text-sm font-medium "
+                            >
+                                Password
+                            </label>
+
+                            <a
+                                routerLink="/forgot-password"
+                                class="text-xs font-medium  hover:text-violet-300 transition-colors"
+                            >
+                                Forgot password?
+                            </a>
+                        </div>
+
+                        <p-password
+                            inputId="password1"
+                            name="password"
+                            [(ngModel)]="password"
+                            placeholder="Enter your password"
+                            [toggleMask]="true"
+                            [feedback]="false"
+                            [fluid]="true"
+                            autocomplete="current-password"
+                            required
+                            #passwordInput="ngModel"
+                            class="w-full!"
+                            inputStyleClass="!h-13! rounded-xl! "
+                        />
+
+                        @if (passwordInput.invalid && passwordInput.touched) {
+                            <small class="text-red-400 text-xs">
+                                Password is required.
+                            </small>
+                        }
+
+                    </div>
+
+                    <!-- Remember me -->
+                    <div class="flex items-center">
+
+                        <div class="flex items-center gap-2.5">
+                            <p-checkbox
+                                [(ngModel)]="checked"
+                                name="rememberMe"
+                                inputId="rememberme1"
+                                [binary]="true"
+                            />
+
+                            <label
+                                for="rememberme1"
+                                class="text-sm  cursor-pointer"
+                            >
+                                Remember me
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <!-- Sign in button -->
+                    <p-button
+                        type="submit"
+                        label="Sign in"
+                        icon="pi pi-arrow-right"
+                        iconPos="right"
+                        [fluid]="true"
+                        [loading]="isLoading"
+                        [disabled]="loginForm.invalid || isLoading"
+                    />
+
+                </form>
+
+                <!-- Security -->
+                <div class="flex items-center justify-center gap-2 mt-8 text-xs text-slate-500">
+                    <i class="pi pi-shield-check text-slate-400"></i>
+                    Your information is protected and secure.
+                </div>
+
+                <!-- Register -->
+                <div class="flex items-center justify-center gap-1.5 mt-8 text-sm ">
+                    <span>Don't have an account?</span>
+
+                    <a
+                        routerLink="/register"
+                        class=" font-semibold  transition-colors"
+                    >
+                        Create an account
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+</div>

@@ -5,5 +5,6 @@ import { ButtonModule } from '@openng/optimus-ui/button';
   imports: [ButtonModule],
   selector: 'app-dashboard',
   templateUrl: './dashboard.html',
+
 })
 export class Dashboard { }
