@@ -26,7 +26,8 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             HttpOnly = true,
             Secure = false,
-            SameSite = SameSiteMode.None,
+            SameSite = SameSiteMode.Lax,
+            Path = "/",
             Expires = DateTime.UtcNow.AddDays(30),
         });
 
@@ -47,7 +48,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             HttpOnly = true,
             Secure = false,
-            SameSite = SameSiteMode.None,
+            SameSite = SameSiteMode.Lax,
             Expires = DateTime.UtcNow.AddDays(30),
         });
 
@@ -79,7 +80,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             HttpOnly = true,
             Secure = false,
-            SameSite = SameSiteMode.None,
+            SameSite = SameSiteMode.Lax,
             Expires = DateTime.UtcNow.AddDays(30),
         });
 
