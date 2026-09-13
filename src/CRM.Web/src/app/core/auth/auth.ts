@@ -38,11 +38,28 @@ export class Auth {
       if (response.accessToken) {
         this.authState.setAccessToken(response.accessToken);
       }
+
+      if (response.user) {
+        this.authState.setUser(response.user);
+      }
     } catch {
       // No valid refresh cookie/session.
       this.authState.clear();
     } finally {
       this.authState.markInitialized();
     }
+  }
+
+  loadCurrentUser() {
+    return this.authService.getApiAuthMe();
+  }
+
+  logout() {
+    return this.authService.postApiAuthLogout(
+      {},
+      {
+        withCredentials: true,
+      },
+    );
   }
 }

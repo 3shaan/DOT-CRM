@@ -1,1 +1,89 @@
-<p>topbar works!</p>
+<header class="flex h-16 items-center gap-3 border-b border-zinc-200 bg-white px-4 dark:border-zinc-800 dark:bg-zinc-950">
+  <button
+    type="button"
+    class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-zinc-600 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 dark:text-zinc-300 dark:hover:bg-zinc-800"
+    [attr.aria-label]="sidebarToggleLabel()"
+    [attr.aria-expanded]="layout.isDesktop() ? !layout.sidebarCollapsed() : layout.mobileOpen()"
+    aria-controls="main-content"
+    (click)="layout.toggleSidebar()"
+  >
+    <i class="pi pi-objects-column text-base" aria-hidden="true"></i>
+  </button>
+
+  <nav class="hidden min-w-0 items-center gap-1 md:flex" aria-label="Sections">
+    @for (link of config.topbarLinks; track link.id) {
+      @if (link.route) {
+        <a
+          [routerLink]="link.route"
+          routerLinkActive="text-zinc-900 dark:text-white"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="rounded-md px-2.5 py-1.5 text-sm text-zinc-500 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 dark:text-zinc-400 dark:hover:text-white"
+        >
+          {{ link.label }}
+        </a>
+      }
+    }
+  </nav>
+
+  <div class="ml-auto flex items-center gap-2">
+    <div class="hidden sm:block">
+      <label class="sr-only" for="topbar-search">Search</label>
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input
+          pInputText
+          id="topbar-search"
+          type="search"
+          placeholder="Search"
+          class="w-48 rounded-full! bg-zinc-50! lg:w-56"
+        />
+      </p-iconfield>
+    </div>
+
+    <button
+      type="button"
+      class="inline-flex size-9 items-center justify-center rounded-lg text-zinc-600 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 dark:text-zinc-300 dark:hover:bg-zinc-800"
+      [attr.aria-label]="themeLabel()"
+      [attr.aria-pressed]="layout.theme() === 'dark'"
+      (click)="layout.toggleTheme()"
+    >
+      <i
+        class="pi text-base"
+        [class.pi-sun]="layout.theme() === 'dark'"
+        [class.pi-moon]="layout.theme() !== 'dark'"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <a
+      routerLink="/settings"
+      class="inline-flex size-9 items-center justify-center rounded-lg text-zinc-600 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 dark:text-zinc-300 dark:hover:bg-zinc-800"
+      aria-label="Settings"
+    >
+      <i class="pi pi-cog text-base" aria-hidden="true"></i>
+    </a>
+
+    <p-menu
+      #userMenu
+      [model]="userMenuItems"
+      [popup]="true"
+      [appendTo]="'body'"
+      ariaLabel="Account"
+    />
+
+    <button
+      type="button"
+      class="inline-flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
+      [attr.aria-label]="accountLabel()"
+      aria-haspopup="menu"
+      (click)="toggleUserMenu($event)"
+    >
+      <p-avatar
+        [label]="initials()"
+        shape="circle"
+        [ariaLabel]="accountLabel()"
+        class="bg-zinc-100! text-xs! font-medium! text-zinc-700! dark:bg-zinc-800! dark:text-zinc-100!"
+      />
+    </button>
+  </div>
+</header>

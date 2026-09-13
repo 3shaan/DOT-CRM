@@ -1,1 +1,97 @@
-<p>sidebar works!</p>
+<a
+  routerLink="/dashboard"
+  class="flex h-16 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
+  [attr.aria-label]="config.logo.alt"
+>
+  <span
+    class="flex size-9 items-center justify-center rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
+    aria-hidden="true"
+  >
+    <i [class]="config.logo.icon + ' text-sm'"></i>
+  </span>
+</a>
+
+<nav class="flex-1 overflow-y-auto px-3 pb-6" aria-label="Sidebar">
+  @for (section of config.sidebarSections; track section.id) {
+    @if (section.label || section.items.length) {
+      <div class="mb-5">
+        @if (section.label && !compact()) {
+          <p class="mb-2 px-3 text-xs font-medium text-zinc-400">
+            {{ section.label }}
+          </p>
+        }
+
+        <ul class="flex flex-col gap-0.5">
+          @for (item of section.items; track item.id) {
+            <li>
+              @if (item.children?.length) {
+                <button
+                  type="button"
+                  [class]="groupButtonClass(item)"
+                  [pTooltip]="item.label"
+                  tooltipPosition="right"
+                  [tooltipDisabled]="!compact()"
+                  [attr.aria-expanded]="isExpanded(item.id)"
+                  [attr.aria-controls]="item.id + '-submenu'"
+                  (click)="toggleGroup(item)"
+                >
+                  <i [class]="item.icon + ' shrink-0 text-base'" aria-hidden="true"></i>
+                  @if (!compact()) {
+                    <span class="flex-1 text-left">{{ item.label }}</span>
+                    <i
+                      class="pi text-xs text-zinc-400"
+                      [class]="isExpanded(item.id) ? 'pi-chevron-down' : 'pi-chevron-right'"
+                      aria-hidden="true"
+                    ></i>
+                  }
+                </button>
+
+                @if (isExpanded(item.id) && !compact()) {
+                  <ul
+                    [id]="item.id + '-submenu'"
+                    class="mt-0.5 ml-4 flex flex-col gap-0.5 border-l border-zinc-200 pl-3 dark:border-zinc-800"
+                  >
+                    @for (child of item.children; track child.id) {
+                      <li>
+                        <a
+                          [routerLink]="child.route"
+                          [routerLinkActive]="itemActiveClass"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                          [attr.aria-current]="isActive(child) ? 'page' : null"
+                        >
+                          <span>{{ child.label }}</span>
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                }
+              } @else if (item.route) {
+                <a
+                  [routerLink]="item.route"
+                  [routerLinkActive]="itemActiveClass"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                  [class.justify-center]="compact()"
+                  [pTooltip]="item.label"
+                  tooltipPosition="right"
+                  [tooltipDisabled]="!compact()"
+                  [attr.aria-current]="isActive(item) ? 'page' : null"
+                  [attr.aria-label]="compact() ? item.label : null"
+                >
+                  <i [class]="item.icon + ' shrink-0 text-base'" aria-hidden="true"></i>
+                  @if (!compact()) {
+                    <span class="flex-1">{{ item.label }}</span>
+                    @if (item.badge) {
+                      <span class="text-xs text-zinc-400">{{ item.badge }}</span>
+                    }
+                  }
+                </a>
+              }
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  }
+</nav>

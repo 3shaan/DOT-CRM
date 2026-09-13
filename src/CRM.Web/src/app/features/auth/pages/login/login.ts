@@ -39,6 +39,9 @@ export class Login {
         if(response.accessToken) {
           this.authState.setAccessToken(response.accessToken);
         }
+        if (response.user) {
+          this.authState.setUser(response.user);
+        }
         this.isLoading = false;
         this.router.navigate(['/dashboard']);
       },
