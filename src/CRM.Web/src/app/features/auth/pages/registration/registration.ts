@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from '@openng/optimus-ui/button';
@@ -7,6 +7,7 @@ import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { PasswordModule } from '@openng/optimus-ui/password';
 import { RippleModule } from '@openng/optimus-ui/ripple';
 import { AuthLeftSectionComponent } from '../../components/auth-left-section';
+import { Auth } from '@core/auth/auth';
 
 @Component({
 imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AuthLeftSectionComponent],
@@ -14,13 +15,31 @@ imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsMo
   templateUrl: './registration.html',
 })
 export class Registration {
-  name: string = '';
-  email: string = '';
-  password: string = '';
-  checked: boolean = false;
+  private readonly auth = inject(Auth);
 
-  isLoading: boolean = false;
+  name = '';
+  email = '';
+  password = '';
+  checked = false;
+
+  isLoading = false;
+
   onSignIn() {
-    console.log(this.name, this.email, this.password);
+    this.isLoading = true;
+
+    this.auth.register({
+      firstName: this.name,
+      email: this.email,
+      password: this.password,
+    }).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Registration failed:', error);
+        this.isLoading = false;
+      }
+    });
   }
 }
