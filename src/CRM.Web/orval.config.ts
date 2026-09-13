@@ -11,7 +11,7 @@ export default defineConfig({
       mock: true,
     },
     input: {
-      target: 'https://localhost:5234/openapi/v1.json',
+      target: 'src/api/openapi/openapi.json',
     },
   },
 });

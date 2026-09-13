@@ -6,7 +6,10 @@
     "start": "ng serve --port 4200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "api:download": "tsx src/scripts/download-openapi-json.ts",
+    "api:generate": "orval --config orval.config.ts",
+    "api:update": "npm run api:download && npm run api:generate"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
