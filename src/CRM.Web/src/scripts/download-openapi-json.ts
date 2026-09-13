@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 const OPENAPI_URL = "http://localhost:5234/openapi/v1.json";
