@@ -12,6 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./core/layout/app-layout/app-layout').then((m) => m.AppLayout),
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -19,20 +20,7 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
       },
       { path: 'dashboard', loadComponent: loadDashboard },
-      { path: 'tasks', loadComponent: loadDashboard },
-      { path: 'apps', loadComponent: loadDashboard },
-      { path: 'chats', loadComponent: loadDashboard },
-      { path: 'users', loadComponent: loadDashboard },
-      { path: 'customers', loadComponent: loadDashboard },
-      { path: 'products', loadComponent: loadDashboard },
-      { path: 'settings', loadComponent: loadDashboard },
-      {
-        path: 'errors',
-        children: [
-          { path: '404', loadComponent: loadDashboard },
-          { path: '500', loadComponent: loadDashboard },
-        ],
-      },
+     
     ],
   },
 ];
