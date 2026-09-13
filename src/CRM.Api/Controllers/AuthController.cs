@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using CRM.Application.Auth.Common.Interface;
 using CRM.Application.Auth.DTOs;
+using CRM.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,16 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         var result = await authService.RegisterAsync(request, cancellationToken);
 
+        // send cookis with refresh token 
+
+        Response.Cookies.Append("refreshToken", result.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.None,
+            Expires = DateTime.UtcNow.AddDays(30),
+        });
+
         return Ok(result);
     }
 
@@ -31,6 +42,14 @@ public class AuthController(IAuthService authService) : ControllerBase
     public async Task<ActionResult<AuthResponse>> Login(LoginRequest request, CancellationToken cancellationToken)
     {
         var result = await authService.LoginAsync(request, cancellationToken);
+
+        Response.Cookies.Append("refreshToken", result.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.None,
+            Expires = DateTime.UtcNow.AddDays(30),
+        });
 
         return Ok(result);
     }
@@ -46,7 +65,23 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
 
-        var result = await authService.RefreshTokenAsync(request.RefreshToken, ipAddress, cancellationToken);
+        // get the refresh token from the cookie
+        var refreshToken = Request.Cookies["refreshToken"] ?? request.RefreshToken;
+
+        if (string.IsNullOrEmpty(refreshToken))
+        {
+            return Unauthorized();
+        }
+
+        var result = await authService.RefreshTokenAsync(refreshToken, ipAddress, cancellationToken);
+
+        Response.Cookies.Append("refreshToken", result.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.None,
+            Expires = DateTime.UtcNow.AddDays(30),
+        });
 
         return Ok(result);
     }
@@ -58,7 +93,17 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Logout(RefreshTokenRequest request, CancellationToken cancellationToken)
     {
-        await authService.LogoutAsync(request.RefreshToken, cancellationToken);
+        var refreshToken = Request.Cookies["refreshToken"] ?? request.RefreshToken;
+
+        if (string.IsNullOrEmpty(refreshToken))
+        {
+            return Unauthorized();
+        }
+
+        await authService.LogoutAsync(refreshToken, cancellationToken);
+
+        Response.Cookies.Delete("refreshToken");
+
         return NoContent();
     }
 

@@ -1,8 +1,9 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideOptimus } from '@openng/optimus-ui/config';
 import Aura from '@openng/optimus-ui-themes/aura';
+import { Auth } from '@core/auth/auth';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +15,9 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.dark'
         }
       }
+    }),
+    provideAppInitializer(() => {
+      return inject(Auth).initialize();
     }),
   ],
 };
