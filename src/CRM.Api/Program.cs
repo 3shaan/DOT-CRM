@@ -1,9 +1,12 @@
+using System.Net.Mime;
 using System.Text;
+using CRM.Api.Common.Exceptions;
 using CRM.Api.Transformers;
 using CRM.Infrastructure;
 using CRM.Infrastructure.Identity;
 using CRM.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 
@@ -15,7 +18,16 @@ var builder = WebApplication.CreateBuilder(args);
 // =============
 
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers(options => options.Filters.Add(new ProducesAttribute(MediaTypeNames.Application.Json)))
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy =
+            System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddOpenApi(options =>
 {
@@ -88,12 +100,13 @@ if (app.Environment.IsDevelopment())
 
 }
 
-
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseCors("WebApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 
 
 // --------------------------------------------------
