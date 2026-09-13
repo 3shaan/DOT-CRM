@@ -37,6 +37,7 @@ export class Topbar {
   protected readonly config = layoutConfig;
   private readonly userMenu = viewChild<Menu>('userMenu');
 
+  // name initials
   protected readonly initials = computed(() => {
     const user = this.authState.user();
     if (!user) {

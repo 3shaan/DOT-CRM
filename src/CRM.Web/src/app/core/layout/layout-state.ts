@@ -62,13 +62,7 @@ export class LayoutState {
 
   private readStoredTheme(): Theme {
     const stored = this.document.defaultView?.localStorage.getItem(THEME_STORAGE_KEY);
-    if (stored === 'light' || stored === 'dark') {
-      return stored;
-    }
-
-    return this.document.defaultView?.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
+    return stored === 'dark' ? 'dark' : 'light';
   }
 
   private persistTheme(theme: Theme): void {
@@ -76,6 +70,8 @@ export class LayoutState {
   }
 
   private applyTheme(theme: Theme): void {
-    this.document.documentElement.classList.toggle('dark', theme === 'dark');
+    const root = this.document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    root.style.colorScheme = theme;
   }
 }

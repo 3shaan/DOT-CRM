@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideOptimus } from '@openng/optimus-ui/config';
 import Aura from '@openng/optimus-ui-themes/aura';
 import { Auth } from '@core/auth/auth';
+import { LayoutState } from '@core/layout/layout-state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,12 +14,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideOptimus({
       theme: {
-        preset: Aura, options: {
-          darkModeSelector: '.dark'
-        }
-      }
+        preset: Aura,
+        options: {
+          darkModeSelector: '.dark',
+        },
+      },
     }),
     provideAppInitializer(() => {
+      inject(LayoutState);
       return inject(Auth).initialize();
     }),
   ],
