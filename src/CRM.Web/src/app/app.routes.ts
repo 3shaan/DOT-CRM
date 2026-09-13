@@ -20,6 +20,7 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
       },
       { path: 'dashboard', loadComponent: loadDashboard },
+      { path: 'users', loadChildren: () => import('./features/users/user.route').then((m) => m.userRoute) },
      
     ],
   },
