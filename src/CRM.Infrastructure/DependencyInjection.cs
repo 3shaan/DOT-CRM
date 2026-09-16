@@ -1,5 +1,6 @@
 using CRM.Application.Auth.Common.Interface;
 using CRM.Application.Common.Interface;
+using CRM.Application.Customer.Interface;
 using CRM.Application.Customer.Mapping;
 using CRM.Infrastructure.Identity;
 using CRM.Infrastructure.Persistence;
@@ -69,6 +70,9 @@ public static class DependencyInjection
 
         // user service
         services.AddScoped<IUserService, UserService>();
+
+        // customer service
+        services.AddScoped<ICustomerService, CustomerService>();
 
 
         return services;

@@ -8,6 +8,7 @@ public class CustomerMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CustomerEntity, CustomerResponseDto>();
+        config.NewConfig<CustomerEntity, CustomerResponseDto>()
+        .Map(dest => dest.CompanyName, src => src.Company.Name ?? string.Empty);
     }
 }
