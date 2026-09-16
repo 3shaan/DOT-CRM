@@ -21,7 +21,29 @@ public record CustomerResponseDto
 
     public string? Source { get; set; }
 
-    public List<CustomerContact> Contacts { get; set; } = [];
+    public List<CustomerContactResponseDto> Contacts { get; set; } = [];
 
-    public List<CustomerAddress> Addresses { get; set; } = [];
+    public List<CustomerAddressResponseDto> Addresses { get; set; } = [];
+}
+
+public record CustomerContactResponseDto
+{
+    public Guid Id { get; set; }
+    public required string Name { get; set; }
+    public string Email { get; set; } = null!;
+    public string Phone { get; set; } = null!;
+    public string Position { get; set; } = null!;
+    public string Department { get; set; } = null!;
+    public string Notes { get; set; } = null!;
+}
+
+public record CustomerAddressResponseDto
+{
+    public Guid Id { get; set; }
+    public string AddressLine1 { get; set; } = null!;
+    public string AddressLine2 { get; set; } = null!;
+    public string City { get; set; } = null!;
+    public string State { get; set; } = null!;
+    public string Zip { get; set; } = null!;
+    public string Country { get; set; } = null!;
 }
