@@ -46,7 +46,9 @@ public class CustomerService(ApplicationDbContext dbContext, IMapper mapper) : I
 
         if (customer is null)
         {
-            throw new DllNotFoundException(nameof(Customer), new Exception(id.ToString()));
+            throw new DllNotFoundException(
+                $"Customer with ID '{id}' was not found."
+            );
         }
 
 
