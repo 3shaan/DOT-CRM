@@ -1,8 +1,11 @@
 using CRM.Application.Auth.Common.Interface;
 using CRM.Application.Common.Interface;
+using CRM.Application.Customer.Mapping;
 using CRM.Infrastructure.Identity;
 using CRM.Infrastructure.Persistence;
 using CRM.Infrastructure.Services;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +45,16 @@ public static class DependencyInjection
         //jwt
 
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+
+        // mapster
+        var config = new TypeAdapterConfig();
+
+        // scan
+        config.Scan(typeof(CustomerMapping).Assembly);
+
+        //register
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
 
 
         //auth service

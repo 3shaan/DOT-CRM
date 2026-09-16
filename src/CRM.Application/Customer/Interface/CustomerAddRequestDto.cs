@@ -1,15 +1,14 @@
-using CRM.Domain.Common;
+using CRM.Domain.Entity;
 
-namespace CRM.Domain.Entity;
+namespace CRM.Application.Customer.Interface;
 
-public class Customer : BaseEntity
+public record CustomerAddRequestDto
 {
     public CustomerType Type { get; set; }
 
     public Guid? CompanyId { get; set; }
 
-
-
+    public Company? Company { get; set; }
 
     public required string Name { get; set; }
 
@@ -19,26 +18,7 @@ public class Customer : BaseEntity
 
     public string? Source { get; set; }
 
-    // Relationships
-    public Company? Company { get; set; }
-
     public List<CustomerContact> Contacts { get; set; } = [];
 
     public List<CustomerAddress> Addresses { get; set; } = [];
-
-
-}
-
-//enum for customer type
-public enum CustomerType
-{
-    Individual,
-    Company
-}
-
-//enum for customer status
-public enum CustomerStatus
-{
-    Active,
-    Inactive,
 }
