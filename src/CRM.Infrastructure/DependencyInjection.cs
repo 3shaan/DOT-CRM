@@ -55,7 +55,12 @@ public static class DependencyInjection
 
         //register
         services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
+        // services.AddScoped<IMapper, ServiceMapper>();
+        services.AddScoped<IMapper>(provider =>
+            new ServiceMapper(
+                provider,
+                provider.GetRequiredService<TypeAdapterConfig>()
+            ));
 
 
         //auth service

@@ -11,10 +11,6 @@ public interface ICustomerService
     // get customer by id
     Task<CustomerResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-    // get customer by email
-    Task<CustomerResponseDto> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
-
-
     // add customer
     Task<CustomerResponseDto> AddAsync(CustomerAddRequestDto customerAddRequestDto, CancellationToken cancellationToken = default);
 

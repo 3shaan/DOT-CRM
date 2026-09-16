@@ -9,8 +9,6 @@ public class Customer : BaseEntity
     public Guid? CompanyId { get; set; }
 
 
-
-
     public required string Name { get; set; }
 
     public required string Code { get; set; }

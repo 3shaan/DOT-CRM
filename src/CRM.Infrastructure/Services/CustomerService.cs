@@ -1,5 +1,6 @@
 using CRM.Application.Customer.DTOs;
 using CRM.Application.Customer.Interface;
+using CRM.Domain.Entity;
 using CRM.Infrastructure.Persistence;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
@@ -8,14 +9,20 @@ namespace CRM.Infrastructure.Services;
 
 public class CustomerService(ApplicationDbContext dbContext, IMapper mapper) : ICustomerService
 {
-    public Task<CustomerResponseDto> AddAsync(CustomerAddRequestDto customerAddRequestDto, CancellationToken cancellationToken = default)
+    public async Task<CustomerResponseDto> AddAsync(CustomerAddRequestDto customerAddRequestDto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var customer = mapper.Map<Customer>(customerAddRequestDto);
+        await dbContext.Customers.AddAsync(customer, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return await GetByIdAsync(customer.Id, cancellationToken);
     }
 
-    public Task<CustomerResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<CustomerResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var customer = await GetByIdAsync(id, cancellationToken);
+        dbContext.Customers.Remove(mapper.Map<Customer>(customer));
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return await GetByIdAsync(customer.Id, cancellationToken);
     }
 
     public async Task<List<CustomerResponseDto>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -29,18 +36,29 @@ public class CustomerService(ApplicationDbContext dbContext, IMapper mapper) : I
         return mapper.Map<List<CustomerResponseDto>>(customers);
     }
 
-    public Task<CustomerResponseDto> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<CustomerResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var customer = await dbContext.Customers
+        .Include(c => c.Company)
+        .Include(c => c.Contacts)
+        .Include(c => c.Addresses)
+        .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+
+        if (customer is null)
+        {
+            throw new DllNotFoundException(nameof(Customer), new Exception(id.ToString()));
+        }
+
+
+        return mapper.Map<CustomerResponseDto>(customer);
+
     }
 
-    public Task<CustomerResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<CustomerResponseDto> UpdateAsync(Guid id, CustomerUpdateRequestDto customerUpdateRequestDto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<CustomerResponseDto> UpdateAsync(Guid id, CustomerUpdateRequestDto customerUpdateRequestDto, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
+        var customer = await GetByIdAsync(id, cancellationToken);
+        mapper.Map(customerUpdateRequestDto, customer);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return await GetByIdAsync(customer.Id, cancellationToken);
     }
 }
