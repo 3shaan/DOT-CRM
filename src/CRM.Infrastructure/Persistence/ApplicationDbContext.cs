@@ -24,6 +24,8 @@ Guid
 
     public DbSet<Company> Companies => Set<Company>();
 
+    public DbSet<Lead> Leads => Set<Lead>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

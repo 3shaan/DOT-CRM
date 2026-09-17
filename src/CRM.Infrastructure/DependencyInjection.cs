@@ -4,6 +4,8 @@ using CRM.Application.Company.Interface;
 using CRM.Application.Company.Mapping;
 using CRM.Application.Customer.Interface;
 using CRM.Application.Customer.Mapping;
+using CRM.Application.Lead.Interface;
+using CRM.Application.Lead.Mapping;
 using CRM.Infrastructure.Identity;
 using CRM.Infrastructure.Persistence;
 using CRM.Infrastructure.Services;
@@ -55,6 +57,7 @@ public static class DependencyInjection
         // scan
         config.Scan(typeof(CustomerMapping).Assembly);
         config.Scan(typeof(CompanyMapper).Assembly);
+        config.Scan(typeof(LeaderMapper).Assembly);
         //register
         services.AddSingleton(config);
         // services.AddScoped<IMapper, ServiceMapper>();
@@ -83,6 +86,9 @@ public static class DependencyInjection
 
         // company service
         services.AddScoped<ICompanyService, CompanyService>();
+
+        // lead service
+        services.AddScoped<ILeadService, LeadService>();
 
         return services;
     }
