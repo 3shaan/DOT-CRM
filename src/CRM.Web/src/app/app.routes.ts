@@ -21,7 +21,7 @@ export const routes: Routes = [
       },
       { path: 'dashboard', loadComponent: loadDashboard },
       { path: 'users', loadChildren: () => import('./features/users/user.route').then((m) => m.userRoute) },
-     
+      { path: 'customer', loadChildren: () => import('./features/customer/customer.route').then((m) => m.customerRoute) },
     ],
   },
 ];

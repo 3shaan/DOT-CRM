@@ -34,6 +34,7 @@ export const layoutConfig: LayoutConfig = {
       items: [
         { id: 'dashboard', label: 'Dashboard', icon: 'pi pi-th-large', route: '/dashboard' },
         { id: 'users', label: 'Users', icon: 'pi pi-users', route: '/users' },
+        { id: 'customers', label: 'Customers', icon: 'pi pi-users', route: '/customer' },
       ],
     },
    
