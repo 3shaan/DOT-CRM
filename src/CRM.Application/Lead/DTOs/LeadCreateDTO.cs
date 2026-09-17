@@ -4,8 +4,6 @@ using CRM.Domain.Entity;
 namespace CRM.Application.Lead.DTOs;
 
 public record LeadCreateDTO(
- Guid Id,
-
      [Required(ErrorMessage = "Name is required")]
      [MaxLength(200, ErrorMessage = "Name must be less than 200 characters")]
      string Name,
