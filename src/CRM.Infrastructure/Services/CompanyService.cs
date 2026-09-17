@@ -17,7 +17,7 @@ public class CompanyService(ApplicationDbContext dbContext, IMapper mapper) : IC
         return mapper.Map<CompanyResponseDto>(company);
     }
 
-    public async Task<CompanyResponseDto> DeleteCompany(int id, CancellationToken cancellationToken = default)
+    public async Task<CompanyResponseDto> DeleteCompany(Guid id, CancellationToken cancellationToken = default)
     {
         var company = await dbContext.Companies.FindAsync([id], cancellationToken);
         if (company == null)
@@ -35,7 +35,7 @@ public class CompanyService(ApplicationDbContext dbContext, IMapper mapper) : IC
         return mapper.Map<List<CompanyResponseDto>>(companies);
     }
 
-    public async Task<CompanyResponseDto> GetCompanyById(int id, CancellationToken cancellationToken = default)
+    public async Task<CompanyResponseDto> GetCompanyById(Guid id, CancellationToken cancellationToken = default)
     {
         var company = await dbContext.Companies.FindAsync([id], cancellationToken);
         if (company == null)
@@ -45,7 +45,7 @@ public class CompanyService(ApplicationDbContext dbContext, IMapper mapper) : IC
         return mapper.Map<CompanyResponseDto>(company);
     }
 
-    public async Task<CompanyResponseDto> UpdateCompany(int id, CompanyUpdateDto companyRequestDto, CancellationToken cancellationToken = default)
+    public async Task<CompanyResponseDto> UpdateCompany(Guid id, CompanyUpdateDto companyRequestDto, CancellationToken cancellationToken = default)
     {
         var company = await dbContext.Companies.FindAsync([id], cancellationToken);
         if (company == null)

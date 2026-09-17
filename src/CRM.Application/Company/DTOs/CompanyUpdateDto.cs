@@ -6,4 +6,4 @@ public record CompanyUpdateDto(
   string? Website,
   string Email,
   string Phone
-);
+) : CompanyAddRequestDto(Name, Industry, Website, Email, Phone);

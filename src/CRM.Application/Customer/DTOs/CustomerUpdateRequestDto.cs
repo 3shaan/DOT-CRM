@@ -8,7 +8,6 @@ public record CustomerUpdateRequestDto
 
     public Guid? CompanyId { get; set; }
 
-    public Company? Company { get; set; }
 
     public required string Name { get; set; }
 
