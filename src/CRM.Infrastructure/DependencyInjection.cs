@@ -1,5 +1,7 @@
 using CRM.Application.Auth.Common.Interface;
 using CRM.Application.Common.Interface;
+using CRM.Application.Company.Interface;
+using CRM.Application.Company.Mapping;
 using CRM.Application.Customer.Interface;
 using CRM.Application.Customer.Mapping;
 using CRM.Infrastructure.Identity;
@@ -52,7 +54,7 @@ public static class DependencyInjection
 
         // scan
         config.Scan(typeof(CustomerMapping).Assembly);
-
+        config.Scan(typeof(CompanyMapper).Assembly);
         //register
         services.AddSingleton(config);
         // services.AddScoped<IMapper, ServiceMapper>();
@@ -79,6 +81,8 @@ public static class DependencyInjection
         // customer service
         services.AddScoped<ICustomerService, CustomerService>();
 
+        // company service
+        services.AddScoped<ICompanyService, CompanyService>();
 
         return services;
     }
