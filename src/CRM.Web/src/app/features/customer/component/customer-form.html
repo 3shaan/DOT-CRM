@@ -35,9 +35,7 @@
             />
             <label for="customer-name">Name</label>
           </p-floatlabel>
-          @if (errorMessage(customerForm.name); as message) {
-            <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-          }
+          <app-field-error [field]="customerForm.name" />
         </div>
 
         <div class="flex flex-col gap-2">
@@ -51,25 +49,17 @@
             />
             <label for="customer-code">Code</label>
           </p-floatlabel>
-          @if (errorMessage(customerForm.code); as message) {
-            <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-          }
+          <app-field-error [field]="customerForm.code" />
         </div>
       </div>
 
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div class="flex flex-col gap-2">
           <label for="customer-status" class="text-sm font-medium">Status</label>
-          <p-select
+          <app-select-field
             inputId="customer-status"
-            name="status"
-            [ngModel]="customerForm.status().value()"
-            (ngModelChange)="setStatus($event)"
+            [formField]="customerForm.status"
             [options]="statusOptions"
-            optionLabel="label"
-            optionValue="value"
-            appendTo="body"
-            [fluid]="true"
           />
         </div>
 
@@ -89,20 +79,14 @@
 
       <div class="flex flex-col gap-2">
         <label for="customer-company" class="text-sm font-medium">Linked company</label>
-        <p-select
+        <app-select-field
           inputId="customer-company"
-          name="companyId"
-          [ngModel]="customerForm.companyId().value()"
-          (ngModelChange)="setCompanyId($event)"
+          [formField]="customerForm.companyId"
           [options]="companyOptions()"
-          optionLabel="label"
-          optionValue="value"
           placeholder="Select a company"
           [filter]="true"
           [showClear]="true"
           [loading]="companies.isLoading()"
-          appendTo="body"
-          [fluid]="true"
         />
       </div>
     </div>
@@ -159,9 +143,7 @@
                   />
                   <label [for]="'contact-name-' + $index">Name</label>
                 </p-floatlabel>
-                @if (errorMessage(contact.name); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
+                <app-field-error [field]="contact.name" />
               </div>
 
               <div class="flex flex-col gap-2">
@@ -176,9 +158,7 @@
                   />
                   <label [for]="'contact-email-' + $index">Email</label>
                 </p-floatlabel>
-                @if (errorMessage(contact.email); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
+                <app-field-error [field]="contact.email" />
               </div>
 
               <div class="flex flex-col gap-2">
@@ -193,9 +173,7 @@
                   />
                   <label [for]="'contact-phone-' + $index">Phone</label>
                 </p-floatlabel>
-                @if (errorMessage(contact.phone); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
+                <app-field-error [field]="contact.phone" />
               </div>
 
               <div class="flex flex-col gap-2">
@@ -209,9 +187,7 @@
                   />
                   <label [for]="'contact-position-' + $index">Position</label>
                 </p-floatlabel>
-                @if (errorMessage(contact.position); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
+                <app-field-error [field]="contact.position" />
               </div>
 
               <div class="flex flex-col gap-2 md:col-span-2">
@@ -225,9 +201,7 @@
                   />
                   <label [for]="'contact-department-' + $index">Department</label>
                 </p-floatlabel>
-                @if (errorMessage(contact.department); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
+                <app-field-error [field]="contact.department" />
               </div>
 
               <div class="flex flex-col gap-2 md:col-span-2">
@@ -235,14 +209,13 @@
                   <textarea
                     pTextarea
                     [id]="'contact-notes-' + $index"
-                    [name]="'contact-notes-' + $index"
-                    [ngModel]="contact.notes().value()"
-                    (ngModelChange)="contact.notes().value.set($event)"
+                    [formField]="contact.notes"
                     [fluid]="true"
                     rows="3"
                   ></textarea>
                   <label [for]="'contact-notes-' + $index">Notes</label>
                 </p-floatlabel>
+                <app-field-error [field]="contact.notes" />
               </div>
             </div>
           </div>
@@ -302,9 +275,6 @@
                   />
                   <label [for]="'address-line1-' + $index">Address line 1</label>
                 </p-floatlabel>
-                @if (errorMessage(address.addressLine1); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
               </div>
 
               <div class="flex flex-col gap-2 md:col-span-2">
@@ -331,9 +301,6 @@
                   />
                   <label [for]="'address-city-' + $index">City</label>
                 </p-floatlabel>
-                @if (errorMessage(address.city); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
               </div>
 
               <div class="flex flex-col gap-2">
@@ -347,9 +314,6 @@
                   />
                   <label [for]="'address-state-' + $index">State</label>
                 </p-floatlabel>
-                @if (errorMessage(address.state); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
               </div>
 
               <div class="flex flex-col gap-2">
@@ -363,9 +327,6 @@
                   />
                   <label [for]="'address-zip-' + $index">ZIP</label>
                 </p-floatlabel>
-                @if (errorMessage(address.zip); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
               </div>
 
               <div class="flex flex-col gap-2">
@@ -379,9 +340,6 @@
                   />
                   <label [for]="'address-country-' + $index">Country</label>
                 </p-floatlabel>
-                @if (errorMessage(address.country); as message) {
-                  <small class="text-xs text-red-500" role="alert">{{ message }}</small>
-                }
               </div>
             </div>
           </div>
