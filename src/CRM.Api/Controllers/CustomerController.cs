@@ -46,7 +46,7 @@ public class CustomerController(ICustomerService customerService) : ControllerBa
     }
 
     [HttpDelete("{id}")]
-    [ProducesResponseType(typeof(CustomerResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {

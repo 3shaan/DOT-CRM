@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using System.Text;
+using System.Text.Json.Serialization;
 using CRM.Api.Common.Exceptions;
 using CRM.Api.Transformers;
 using CRM.Infrastructure;
@@ -24,6 +25,7 @@ builder.Services
     {
         options.JsonSerializerOptions.PropertyNamingPolicy =
             System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
 builder.Services.AddProblemDetails();

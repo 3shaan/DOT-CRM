@@ -5,9 +5,17 @@ import { TableModule } from '@openng/optimus-ui/table';
 import { PageContainer } from '@core/layout/page-container';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { RouterLink } from '@angular/router';
+import { CustomerTableRowActionComponent } from '../component/customer-table-row-action.component';
 
 @Component({
-  imports: [TableModule, TableRowDirective, PageContainer, ButtonModule, RouterLink],
+  imports: [
+    TableModule,
+    TableRowDirective,
+    PageContainer,
+    ButtonModule,
+    RouterLink,
+    CustomerTableRowActionComponent,
+  ],
   selector: 'app-customer',
   template: `
     <app-page-container
@@ -32,6 +40,8 @@ import { RouterLink } from '@angular/router';
             <th>Company</th>
             <th>Status</th>
             <th>Type</th>
+            <th>Source</th>
+            <th>Actions</th>
           </tr>
         </ng-template>
 
@@ -41,6 +51,10 @@ import { RouterLink } from '@angular/router';
             <td>{{ customer.companyName }}</td>
             <td>{{ customer.status }}</td>
             <td>{{ customer.type }}</td>
+            <td>{{ customer.source }}</td>
+            <td>
+              <app-customer-table-row-action [customer]="customer" (deleted)="customers.reload()" />
+            </td>
           </tr>
         </ng-template>
       </p-table>

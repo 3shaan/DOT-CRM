@@ -18,6 +18,6 @@ public interface ICustomerService
     Task<CustomerResponseDto> UpdateAsync(Guid id, CustomerUpdateRequestDto customerUpdateRequestDto, CancellationToken cancellationToken = default);
 
     // delete customer
-    Task<CustomerResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 
 }

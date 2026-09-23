@@ -645,7 +645,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CustomerResponseDto"
+                  "type": "boolean"
                 }
               }
             }
@@ -1120,16 +1120,28 @@
             "type": "string"
           },
           "addressLine2": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "city": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "state": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "zip": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "country": {
             "type": "string"
@@ -1174,16 +1186,28 @@
             "type": "string"
           },
           "addressLine2": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "city": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "state": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "zip": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "country": {
             "type": "string"

@@ -17,17 +17,17 @@ public class CustomerService(ApplicationDbContext dbContext, IMapper mapper) : I
         return await GetByIdAsync(customer.Id, cancellationToken);
     }
 
-    public async Task<CustomerResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var customer = await GetByIdAsync(id, cancellationToken);
         dbContext.Customers.Remove(mapper.Map<Customer>(customer));
         await dbContext.SaveChangesAsync(cancellationToken);
-        return await GetByIdAsync(customer.Id, cancellationToken);
+        return true;
     }
 
     public async Task<List<CustomerResponseDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var customers = await dbContext.Customers
+        var customers = await dbContext.Customers.AsNoTracking()
         .Include(c => c.Company)
         .Include(c => c.Contacts)
         .Include(c => c.Addresses)
@@ -38,7 +38,7 @@ public class CustomerService(ApplicationDbContext dbContext, IMapper mapper) : I
 
     public async Task<CustomerResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var customer = await dbContext.Customers
+        var customer = await dbContext.Customers.AsNoTracking()
         .Include(c => c.Company)
         .Include(c => c.Contacts)
         .Include(c => c.Addresses)
