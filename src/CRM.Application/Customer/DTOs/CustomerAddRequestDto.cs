@@ -28,17 +28,17 @@ public record CustomerContactAddRequestDto
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required string Phone { get; set; }
-    public required string Position { get; set; }
-    public required string Department { get; set; }
-    public required string Notes { get; set; }
+    public string? Position { get; set; }
+    public string? Department { get; set; }
+    public string? Notes { get; set; }
 }
 
 public record CustomerAddressAddRequestDto
 {
     public string AddressLine1 { get; set; } = null!;
-    public string AddressLine2 { get; set; } = null!;
-    public string City { get; set; } = null!;
-    public string State { get; set; } = null!;
-    public string Zip { get; set; } = null!;
+    public string? AddressLine2 { get; set; }
+    public string? City { get; set; }
+    public string? State { get; set; }
+    public string? Zip { get; set; }
     public string Country { get; set; } = null!;
 }

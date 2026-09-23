@@ -1194,10 +1194,7 @@
         "required": [
           "name",
           "email",
-          "phone",
-          "position",
-          "department",
-          "notes"
+          "phone"
         ],
         "type": "object",
         "properties": {
@@ -1211,13 +1208,22 @@
             "type": "string"
           },
           "position": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "department": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "notes": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -1255,10 +1261,7 @@
         "required": [
           "name",
           "email",
-          "phone",
-          "position",
-          "department",
-          "notes"
+          "phone"
         ],
         "type": "object",
         "properties": {
@@ -1276,13 +1279,22 @@
             "type": "string"
           },
           "position": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "department": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "notes": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerService, getApiCompanyResource } from '@api/index';
 import type { ProblemDetails } from '@api/model';
@@ -8,13 +8,11 @@ import { firstValueFrom } from 'rxjs';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { CardModule } from '@openng/optimus-ui/card';
 import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
-import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { MessageModule } from '@openng/optimus-ui/message';
 import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
-import { TextareaModule } from '@openng/optimus-ui/textarea';
 import { FieldError } from '@shared/forms/field-error';
-import { FormFieldTouchedInvalid } from '@shared/forms/form-field-touched-invalid';
 import { SelectField } from '@shared/forms/select-field';
+import { TextField } from '@shared/forms/text-field';
 import { CUSTOMER_STATUS_OPTIONS, CUSTOMER_TYPE_OPTIONS } from './customer-options';
 import {
   customerFormSchema,
@@ -46,15 +44,13 @@ const emptyAddress = (): AddressFormValue => ({
   imports: [
     FormField,
     FieldError,
-    FormFieldTouchedInvalid,
     SelectField,
+    TextField,
     ButtonModule,
     CardModule,
     FloatLabelModule,
-    InputTextModule,
     MessageModule,
     SelectButtonModule,
-    TextareaModule,
   ],
   selector: 'app-customer-form',
   templateUrl: './customer-form.html',
@@ -134,6 +130,7 @@ export class CustomerForm {
         await this.router.navigate(['/customer']);
         return;
       } catch (error) {
+        console.error('Error:', error);
         const message = this.readError(error);
         this.submitError.set(message);
         return { kind: 'server', message };

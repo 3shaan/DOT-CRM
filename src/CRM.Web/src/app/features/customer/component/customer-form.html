@@ -26,11 +26,9 @@
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div class="flex flex-col gap-2">
           <p-floatlabel variant="on">
-            <input
-              pInputText
-              id="customer-name"
+            <app-text-field
+              inputId="customer-name"
               [formField]="customerForm.name"
-              [fluid]="true"
               autocomplete="organization"
             />
             <label for="customer-name">Name</label>
@@ -40,11 +38,9 @@
 
         <div class="flex flex-col gap-2">
           <p-floatlabel variant="on">
-            <input
-              pInputText
-              id="customer-code"
+            <app-text-field
+              inputId="customer-code"
               [formField]="customerForm.code"
-              [fluid]="true"
               autocomplete="off"
             />
             <label for="customer-code">Code</label>
@@ -65,11 +61,9 @@
 
         <div class="flex flex-col gap-2">
           <p-floatlabel variant="on">
-            <input
-              pInputText
-              id="customer-source"
+            <app-text-field
+              inputId="customer-source"
               [formField]="customerForm.source"
-              [fluid]="true"
               autocomplete="off"
             />
             <label for="customer-source">Source</label>
@@ -134,11 +128,9 @@
             <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'contact-name-' + $index"
+                  <app-text-field
+                    [inputId]="'contact-name-' + $index"
                     [formField]="contact.name"
-                    [fluid]="true"
                     autocomplete="name"
                   />
                   <label [for]="'contact-name-' + $index">Name</label>
@@ -148,11 +140,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'contact-email-' + $index"
+                  <app-text-field
+                    [inputId]="'contact-email-' + $index"
                     [formField]="contact.email"
-                    [fluid]="true"
                     type="email"
                     autocomplete="email"
                   />
@@ -163,11 +153,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'contact-phone-' + $index"
+                  <app-text-field
+                    [inputId]="'contact-phone-' + $index"
                     [formField]="contact.phone"
-                    [fluid]="true"
                     type="tel"
                     autocomplete="tel"
                   />
@@ -178,11 +166,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'contact-position-' + $index"
-                    [formField]="contact.position"
-                    [fluid]="true"
+                  <app-text-field
+                    [inputId]="'contact-position-' + $index"
+                    [formField]="contact.position ?? ''"
                     autocomplete="organization-title"
                   />
                   <label [for]="'contact-position-' + $index">Position</label>
@@ -192,11 +178,9 @@
 
               <div class="flex flex-col gap-2 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'contact-department-' + $index"
+                  <app-text-field
+                    [inputId]="'contact-department-' + $index"
                     [formField]="contact.department"
-                    [fluid]="true"
                     autocomplete="off"
                   />
                   <label [for]="'contact-department-' + $index">Department</label>
@@ -206,13 +190,11 @@
 
               <div class="flex flex-col gap-2 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <textarea
-                    pTextarea
-                    [id]="'contact-notes-' + $index"
+                  <app-text-field
+                    [inputId]="'contact-notes-' + $index"
                     [formField]="contact.notes"
-                    [fluid]="true"
-                    rows="3"
-                  ></textarea>
+                    [rows]="3"
+                  />
                   <label [for]="'contact-notes-' + $index">Notes</label>
                 </p-floatlabel>
                 <app-field-error [field]="contact.notes" />
@@ -266,11 +248,9 @@
             <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div class="flex flex-col gap-2 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'address-line1-' + $index"
+                  <app-text-field
+                    [inputId]="'address-line1-' + $index"
                     [formField]="address.addressLine1"
-                    [fluid]="true"
                     autocomplete="address-line1"
                   />
                   <label [for]="'address-line1-' + $index">Address line 1</label>
@@ -279,11 +259,9 @@
 
               <div class="flex flex-col gap-2 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'address-line2-' + $index"
+                  <app-text-field
+                    [inputId]="'address-line2-' + $index"
                     [formField]="address.addressLine2"
-                    [fluid]="true"
                     autocomplete="address-line2"
                   />
                   <label [for]="'address-line2-' + $index">Address line 2</label>
@@ -292,11 +270,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'address-city-' + $index"
+                  <app-text-field
+                    [inputId]="'address-city-' + $index"
                     [formField]="address.city"
-                    [fluid]="true"
                     autocomplete="address-level2"
                   />
                   <label [for]="'address-city-' + $index">City</label>
@@ -305,11 +281,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'address-state-' + $index"
+                  <app-text-field
+                    [inputId]="'address-state-' + $index"
                     [formField]="address.state"
-                    [fluid]="true"
                     autocomplete="address-level1"
                   />
                   <label [for]="'address-state-' + $index">State</label>
@@ -318,11 +292,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'address-zip-' + $index"
+                  <app-text-field
+                    [inputId]="'address-zip-' + $index"
                     [formField]="address.zip"
-                    [fluid]="true"
                     autocomplete="postal-code"
                   />
                   <label [for]="'address-zip-' + $index">ZIP</label>
@@ -331,11 +303,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    [id]="'address-country-' + $index"
+                  <app-text-field
+                    [inputId]="'address-country-' + $index"
                     [formField]="address.country"
-                    [fluid]="true"
                     autocomplete="country-name"
                   />
                   <label [for]="'address-country-' + $index">Country</label>

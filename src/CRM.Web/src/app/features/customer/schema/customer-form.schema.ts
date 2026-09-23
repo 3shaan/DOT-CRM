@@ -12,9 +12,9 @@ export const contactFormSchema = z.object({
   name: requiredString('Name is required.'),
   email: z.email('Enter a valid email.'),
   phone: requiredString('Phone is required.'),
-  position: requiredString('Position is required.'),
-  department: requiredString('Department is required.'),
-  notes: requiredString('Notes are required.'),
+  position: z.string(),
+  department: z.string(),
+  notes: z.string(),
 });
 
 export const addressFormSchema = z.object({

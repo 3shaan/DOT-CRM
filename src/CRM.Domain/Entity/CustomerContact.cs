@@ -6,12 +6,12 @@ public class CustomerContact : BaseEntity
 {
 
     public Guid CustomerId { get; set; }
-    public Customer Customer { get; set; } = null!;
+    public required Customer Customer { get; set; }
 
     public required string Name { get; set; }
     public string Email { get; set; } = null!;
-    public string Phone { get; set; } = null!;
-    public string Position { get; set; } = null!;
-    public string Department { get; set; } = null!;
-    public string Notes { get; set; } = null!;
+    public string? Phone { get; set; }
+    public string? Position { get; set; }
+    public string? Department { get; set; }
+    public string? Notes { get; set; }
 }
