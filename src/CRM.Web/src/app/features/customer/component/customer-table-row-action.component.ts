@@ -8,6 +8,7 @@ import { ConfirmationService } from '@openng/optimus-ui/api';
 import { CustomerService, getApiCustomerResource } from '@api/index';
 import { firstValueFrom } from 'rxjs';
 import { ToastModule } from '@openng/optimus-ui/toast';
+import { Router } from '@angular/router';
 @Component({
   imports: [MenuModule, ButtonModule, ConfirmDialogModule, ToastModule],
   selector: 'app-customer-table-row-action',
@@ -31,7 +32,7 @@ export class CustomerTableRowActionComponent {
   public readonly customer = input<CustomerResponseDto>();
   private readonly confirmDialog = inject(ConfirmationService);
   private messageService = inject(MessageService);
-
+  private readonly router = inject(Router);
   readonly deleted = output<void>();
 
   items: MenuItem[] | undefined;
@@ -43,7 +44,7 @@ export class CustomerTableRowActionComponent {
           {
             label: 'Edit',
             icon: 'pi pi-pencil',
-            // command: () => this.editCustomer(),
+            command: () => this.editCustomer(),
           },
           {
             label: 'Delete',
@@ -91,5 +92,9 @@ export class CustomerTableRowActionComponent {
         }
       },
     });
+  }
+
+  private editCustomer(): void {
+    this.router.navigate(['/customer/edit', this.customer()?.id ?? '']);
   }
 }

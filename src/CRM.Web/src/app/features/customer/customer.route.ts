@@ -9,4 +9,8 @@ export const customerRoute: Routes = [
     path: 'add',
     loadComponent: () => import('./pages/add-customer').then((m) => m.AddCustomer),
   },
+  {
+    path: 'edit/:id',
+    loadComponent: () => import('./pages/edit-customer').then((m) => m.EditCustomer),
+  },
 ];
